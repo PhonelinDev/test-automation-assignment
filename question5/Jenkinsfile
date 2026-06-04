@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout Code From Git') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Run Test Automate') {
+            steps {
+                sh 'npm ci'
+                sh 'npx playwright install --with-deps chromium'
+                sh 'npx playwright test'
+            }
+        }
+        
+        stage('Send Result To Jenkins') {
+            steps {
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'playwright-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Playwright Report'
+                ])
+            }
+        }
+    }
+}
