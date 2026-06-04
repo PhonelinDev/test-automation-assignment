@@ -13,6 +13,7 @@ test.describe('Login', () => {
     await loginPage.login('tomsmith', 'SuperSecretPassword!');
     await loginPage.expectLoginSuccess();
     await loginPage.logout();
+    await loginPage.expectLogoutSuccess();
   });
 
   test('Login failed - Password incorrect', async () => {

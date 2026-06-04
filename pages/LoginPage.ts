@@ -14,8 +14,9 @@ export class LoginPage {
   }
 
   async expectLoginSuccess() {
-    await expect(this.page.locator('.flash.success')).toBeVisible({ timeout: 10000 });
-  }
+  await expect(this.page.locator('.flash.success'))
+    .toContainText('You logged into a secure area!', { timeout: 10000 });
+}
 
   async expectLoginFailed(message: string) {
     await expect(this.page.locator('.flash.error')).toContainText(message, { timeout: 10000 });
@@ -24,4 +25,9 @@ export class LoginPage {
   async logout() {
     await this.page.getByRole('link', { name: 'Logout' }).click();
   }
+
+  async expectLogoutSuccess() {
+  await expect(this.page.locator('.flash.success'))
+    .toContainText('You logged out of the secure area!', { timeout: 10000 });
+}
 }
